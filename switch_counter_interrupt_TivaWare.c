@@ -33,16 +33,16 @@ void uart_Init(void)
 	UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200,(UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
 	
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);                                    
-  GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0 | GPIO_PIN_2);   
+        GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0 | GPIO_PIN_2);   
 	// GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_0 | GPIO_PIN_2); ?
 
-  UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
+  	UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
 
-  IntMasterEnable();                                                             //enable processor interrupts
+  	IntMasterEnable();                                                             //enable processor interrupts
 	
-  IntEnable(INT_UART0);                                                          //enable the UART interrupt
+  	IntEnable(INT_UART0);                                                          //enable the UART interrupt
 	
-  UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);                          //only enable RX and TX interrupts
+  	UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);                          //only enable RX and TX interrupts
 }
 
 // unsigned long hx_readMass()
@@ -91,7 +91,7 @@ uint32_t ReadCount(void)
 int main(void)
 {
 	// initialize UART0
-  uart_Init();
+        uart_Init();
 	
 	ReadCount();
 	
