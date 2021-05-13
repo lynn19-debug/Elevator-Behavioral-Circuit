@@ -74,7 +74,7 @@ unsigned long keypad_getkey(void)
 	// check to see any key pressed first 
 	KEYPAD_ROW->DATA = 0;              // enable all rows 
 	col = KEYPAD_COL->DATA & 0xF0;     // read all columns 
-  if (col == 0xF0); // return 0;     // no key pressed 
+        if (col == 0xF0); // return 0;     // no key pressed 
 
 // If a key is pressed, it gets here to find out which key. 
 // Although it is written as an infinite loop, it will take one of the breaks or return in one pass.
@@ -136,19 +136,19 @@ void GPIOPortC_Handler(void)
 		if((GPIO_PORTC_DATA_R & 0x10) == 0x00 && (GPIO_PORTE_DATA_R & 0x01) == 0x00) // R0
 		{
 			value = symbol[0][0];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x10) == 0x00 && (GPIO_PORTE_DATA_R & 0x02) == 0x00) // R1
 		{
 			value = symbol[1][0];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x10) == 0x00 && (GPIO_PORTE_DATA_R & 0x04) == 0x00) // R2
 		{
 			value = symbol[2][0];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x10) == 0x00 && (GPIO_PORTE_DATA_R & 0x08) == 0x00) // R3
 		{
 			value = symbol[3][0];
-	  }
+	  	}
 	}
 	
 	else if(GPIO_PORTC_RIS_R & 0x20) // C5, C1
@@ -158,19 +158,19 @@ void GPIOPortC_Handler(void)
 		if((GPIO_PORTC_DATA_R & 0x20) == 0x00 && (GPIO_PORTE_DATA_R & 0x01) == 0x00) // R0
 		{
 			value = symbol[row][1];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x20) == 0x00 && (GPIO_PORTE_DATA_R & 0x02) == 0x00) // R1
 		{
 			value = symbol[row][1];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x20) == 0x00 && (GPIO_PORTE_DATA_R & 0x04) == 0x00) // R2
 		{
 			value = symbol[row][1];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x20) == 0x00 && (GPIO_PORTE_DATA_R & 0x08) == 0x00) // R3
 		{
 			value = symbol[row][1];
-	  }
+	  	}
 	}
 	
 	else if(GPIO_PORTC_RIS_R & 0x40) // C6, C2
@@ -180,19 +180,19 @@ void GPIOPortC_Handler(void)
 		if((GPIO_PORTC_DATA_R & 0x40) == 0x00 && (GPIO_PORTE_DATA_R & 0x01) == 0x00) // R0
 		{
 			value = symbol[row][2];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x40) == 0x00 && (GPIO_PORTE_DATA_R & 0x02) == 0x00) // R1
 		{
 			value = symbol[row][2];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x40) == 0x00 && (GPIO_PORTE_DATA_R & 0x04) == 0x00) // R2
 		{
 			value = symbol[row][2];
-	  }
+	  	}
 		else if((GPIO_PORTC_DATA_R & 0x40) == 0x00 && (GPIO_PORTE_DATA_R & 0x08) == 0x00) // R3
 		{
 			value = symbol[row][2];
-	  }
+	  	}
 	}
 }
 
@@ -209,9 +209,9 @@ void Timer0A_Init(unsigned long period)
   SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
   TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);      // configure for 32-bit timer mode
   TimerLoadSet(TIMER0_BASE, TIMER_A, period -1);        // reload value
-	IntPrioritySet(INT_TIMER0A, 0x00);  	                // configure Timer0A interrupt priority as 0
-  IntEnable(INT_TIMER0A);    				                    // enable interrupt 19 in NVIC (Timer0A)
-	TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);      // arm timeout interrupt
+  IntPrioritySet(INT_TIMER0A, 0x00);  	                // configure Timer0A interrupt priority as 0
+  IntEnable(INT_TIMER0A);    				// enable interrupt 19 in NVIC (Timer0A)
+  TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);      // arm timeout interrupt
   TimerDisable(TIMER0_BASE, TIMER_A);                   // enable timer0A
 }
 
@@ -255,7 +255,7 @@ void display_led(unsigned long data)
 			spi_write(3<<8 | 0x14); spi_write(4<<8 | 0x24);
 			spi_write(5<<8 | 0x24); spi_write(6<<8 | 0x3C);
 			spi_write(7<<8 | 0x04); spi_write(8<<8 | 0x04);
-    break;
+    		break;
 		case 5:
 			spi_write(1<<8 | 0x3C); spi_write(2<<8 | 0x20);
 			spi_write(3<<8 | 0x20); spi_write(4<<8 | 0x20);
@@ -267,19 +267,19 @@ void display_led(unsigned long data)
 			spi_write(3<<8 | 0x20); spi_write(4<<8 | 0x20);
 			spi_write(5<<8 | 0x3C); spi_write(6<<8 | 0x24);
 			spi_write(7<<8 | 0x24); spi_write(8<<8 | 0x3C);
-    break;
+    		break;
 		case 7:
 			spi_write(1<<8 | 0x3C); spi_write(2<<8 | 0x04);
 			spi_write(3<<8 | 0x04); spi_write(4<<8 | 0x08);
 			spi_write(5<<8 | 0x10); spi_write(6<<8 | 0x20);
 			spi_write(7<<8 | 0x20); spi_write(8<<8 | 0x20);
-    break;
+    		break;
 		case 8:
 			spi_write(1<<8 | 0x18); spi_write(2<<8 | 0x24);
 			spi_write(3<<8 | 0x24); spi_write(4<<8 | 0x24);
 			spi_write(5<<8 | 0x18); spi_write(6<<8 | 0x24);
 			spi_write(7<<8 | 0x24); spi_write(8<<8 | 0x18);
-   break;
+   		break;
 		case 9:
 			spi_write(1<<8 | 0x3C); spi_write(2<<8 | 0x24);
 			spi_write(3<<8 | 0x24); spi_write(4<<8 | 0x24);
