@@ -61,7 +61,7 @@ uint32_t ReadCount(void)
 	
 	// while (GPIO_PORTD_RIS_R&0x04); // while(ADDO); wait until Data Line goes LOW?
 	//while(GPIO_PORTD_DATA_R&0x04);
-	while(GPIOPinRead(GPIO_PORTD_BASE, GPIO_PIN_2)&&0x04 == 0x04);
+	while(GPIOPinRead(GPIO_PORTD_BASE, GPIO_PIN_2)&&0x04 == 0x00);
 	
 	for (i = 0; i < 24; i++)
 	{
