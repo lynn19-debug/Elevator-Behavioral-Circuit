@@ -43,11 +43,11 @@ void uart_Init(void)
 
   UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
 
-  IntMasterEnable();                                                             //enable processor interrupts
+  //IntMasterEnable();                                                             //enable processor interrupts
 	
-  IntEnable(INT_UART0);                                                          //enable the UART interrupt
+  //IntEnable(INT_UART0);                                                          //enable the UART interrupt
 	
-  UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);                          //only enable RX and TX interrupts
+  //UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);                          //only enable RX and TX interrupts
 }
 
 uint32_t reset()
@@ -57,9 +57,6 @@ uint32_t reset()
 uint32_t ready()
 {
 }
-
-
-
 
 // unsigned long hx_readMass()
 uint32_t ReadCount(void)
@@ -99,10 +96,10 @@ uint32_t ReadCount(void)
 	Count = Count^0x800000;
 	
 	GPIO_PORTD_DATA_R &= ~0x01;
-	return (Count);
+	return Count;
 	
-	SSIConfigSetExpClk(SSI1_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_1, SSI_MODE_MASTER, 10000, 16); SSIEnable(SSI1_BASE);
-	SSIEnable(SSI1_BASE);
+	//SSIConfigSetExpClk(SSI1_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_1, SSI_MODE_MASTER, 10000, 16); SSIEnable(SSI1_BASE);
+	//SSIEnable(SSI1_BASE);
 	
 	// sprintf(str, "%d", Count);
 	// covert number to string. 	
@@ -113,7 +110,7 @@ int main(void)
 	// initialize UART0
   uart_Init();
 	
-	ReadCount();
+	
 	
 	//
 	// Loop forever.
@@ -121,6 +118,7 @@ int main(void)
 	
 	while(1)
 	{
+		ReadCount();
 	}
 }
 
