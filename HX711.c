@@ -38,7 +38,7 @@ void uart_Init(void)
 	UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200,(UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
 	
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);                                    
-  GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_0 | GPIO_PIN_2);   
+  GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_2);   
 	GPIOPinTypeGPIOOutput(GPIO_PORTD_BASE, GPIO_PIN_0 | GPIO_PIN_2);  
 
   UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));
@@ -50,40 +50,35 @@ void uart_Init(void)
   //UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);                          //only enable RX and TX interrupts
 }
 
-uint32_t reset()
-{
-}
-
-uint32_t ready()
-{
-}
-
 // unsigned long hx_readMass()
 uint32_t ReadCount(void)
 {
-	uint32_t Count = 0;
-	uint32_t i;
+	uint32_t count = 0;
+	int i;
 	
-	GPIO_PORTD_DATA_R |= 0x04; // ADDO = 1
-	GPIO_PORTD_DATA_R &= ~0x01; // ADSK = 0
-	
-	Count = 0;
+	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2, GPIO_PIN_2); //GPIO_PORTD_DATA_R |= 0x04; // ADDO = 1
+	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, 0); //GPIO_PORTD_DATA_R &= ~0x01; // ADSK = 0
 	
 	// while (GPIO_PORTD_RIS_R&0x04); // while(ADDO); wait until Data Line goes LOW?
-	while(GPIO_PORTD_DATA_R&0x04);
+	//while(GPIO_PORTD_DATA_R&0x04);
+	while(GPIOPinRead(GPIO_PORTD_BASE, GPIO_PIN_2)&&0x04 == 0x04);
 	
 	for (i = 0; i < 24; i++)
 	{
-		SysCtlDelay(13333); //Delay for 1ms. delay = 1ms = .001s = x * 3 * 1/(40*(10^6))
+		//SysCtlDelay(13333); //Delay for 1ms. delay = 1ms = .001s = x * 3 * 1/(40*(10^6))
 		
-		GPIO_PORTD_DATA_R |= 0x01; // ADSK = 1
-		Count = Count << 1;
+		//GPIO_PORTD_DATA_R |= 0x01; // ADSK = 1
+		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, GPIO_PIN_0);
 		
-		GPIO_PORTD_DATA_R &= ~0x01; // ADSK = 0
+		count = count << 1;
 		
-		if (GPIO_PORTD_DATA_R&0x04)
+		//GPIO_PORTD_DATA_R &= ~0x01; // ADSK = 0
+		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, 0);
+		
+		//if (GPIO_PORTD_DATA_R&0x04)
+		if(GPIOPinRead(GPIO_PORTD_BASE, GPIO_PIN_2)&&0x04 ==0x04)
 		{
-			Count++;
+			count++;
 			// Count = Count << 1;
 			// SysCtlDelay(13333);
 		}
@@ -91,12 +86,15 @@ uint32_t ReadCount(void)
 	
 	// pulse();
 	
-	GPIO_PORTD_DATA_R |= 0x01; // ADSK = 1
+	//GPIO_PORTD_DATA_R |= 0x01; // ADSK = 1
+	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, GPIO_PIN_0);
 	
-	Count = Count^0x800000;
+	count = count^0x800000;
 	
-	GPIO_PORTD_DATA_R &= ~0x01;
-	return Count;
+	//GPIO_PORTD_DATA_R &= ~0x01;
+	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_0, 0);
+	
+	return count;
 	
 	//SSIConfigSetExpClk(SSI1_BASE, SysCtlClockGet(), SSI_FRF_MOTO_MODE_1, SSI_MODE_MASTER, 10000, 16); SSIEnable(SSI1_BASE);
 	//SSIEnable(SSI1_BASE);
@@ -119,6 +117,8 @@ int main(void)
 	while(1)
 	{
 		ReadCount();
+		
+		SysCtlDelay(6666667);
 	}
 }
 
