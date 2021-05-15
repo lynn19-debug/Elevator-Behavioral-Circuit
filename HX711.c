@@ -108,8 +108,6 @@ int main(void)
 	// initialize UART0
   uart_Init();
 	
-	
-	
 	//
 	// Loop forever.
 	//   
